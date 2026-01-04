@@ -20,7 +20,7 @@ export const caseStudies: CaseStudy[] = [
         title: "SolanaFlyer — Provably Fair Aviator-Style Game",
         shortDescription:
             "Real-time aviator-style gambling game with mathematically correct RTP and provable fairness.",
-        heroImage: "/images/solanaflyer.png",
+        heroImage: "images/solanaflyer.png",
         problem:
             "The product required a real-time gambling game where every multiplier outcome must be mathematically fair, auditable, and impossible to manipulate. Any bug could directly result in financial loss or loss of player trust.",
         solution:
@@ -62,7 +62,7 @@ export const caseStudies: CaseStudy[] = [
         title: "Sixr Cricket — Millions of Requests at Scale",
         shortDescription:
             "High-scale sports gaming platform handling massive traffic spikes with autoscaling.",
-        heroImage: "/images/sixr.png",
+        heroImage: "images/sixr.png",
         problem:
             "The platform needed to handle unpredictable traffic spikes during live matches, with millions of requests per second, without downtime or degraded user experience.",
         solution:
@@ -104,7 +104,7 @@ export const caseStudies: CaseStudy[] = [
         title: "Twitno — In-House Twitter Automation Extension",
         shortDescription:
             "Chrome extension built for controlled, safe, in-house marketing automation.",
-        heroImage: "/images/twitno.png",
+        heroImage: "images/twitno.png",
         problem:
             "The client needed internal Twitter automation without violating platform safety rules or triggering spam detection.",
         solution:
