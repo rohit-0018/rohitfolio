@@ -1,117 +1,180 @@
-import { MapPin, Code2, Trophy, Users } from "lucide-react";
+import { MapPin } from "lucide-react";
+import { motion, useInView } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import { LOCATION, NAME } from "../constants/personal";
+import { useTheme } from "../theme/ThemeProvider";
+import { SectionLabel } from "./WhatIDo";
+
+const STATS = [
+  { value: 8,  suffix: "+", label: "Years backend",          sub: "shipping production code" },
+  { value: 50, suffix: "+", label: "Systems shipped",         sub: "in production" },
+  { value: 30, suffix: "+", label: "Founders worked with",    sub: "globally" },
+];
+
+const STACK = [
+  "Node.js", "TypeScript", "Go", "PostgreSQL",
+  "Redis", "Kafka", "AWS", "GCP", "Docker", "Kubernetes",
+];
 
 export function PersonalInfo() {
-  const stats = [
-    {
-      icon: Code2,
-      value: "8+",
-      label: "Years Backend Engineering",
-      gradient: "from-purple-500 to-purple-600"
-    },
-    {
-      icon: Trophy,
-      value: "50+",
-      label: "Production Systems Shipped",
-      gradient: "from-cyan-500 to-cyan-600"
-    },
-    {
-      icon: Users,
-      value: "30+",
-      label: "Founders Worked With",
-      gradient: "from-blue-500 to-blue-600"
-    }
-  ];
+  const theme = useTheme();
 
   return (
-    <section id="personal-info" className="py-20 lg:py-32 px-6 lg:px-8 relative">
+    <section id="personal-info" className="relative py-20 sm:py-28 lg:py-40 px-5 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Left: Personal Info */}
-          <div>
-            <div className="inline-flex items-center gap-2 text-purple-400 mb-6">
-              <MapPin className="size-4" />
-              <span className="text-sm">{LOCATION} • Working Globally</span>
-            </div>
+        <SectionLabel index="03" label="about" />
 
-            <h2 className="text-neutral-100 mb-6">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20">
+          {/* Left: bio */}
+          <div className="lg:col-span-7">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="inline-flex items-center gap-2 text-neutral-500 mb-8 font-mono text-xs uppercase tracking-[0.2em]"
+            >
+              <MapPin className="size-3" style={{ color: theme.accentHex }} />
+              {LOCATION} · working globally
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="text-[clamp(2rem,5vw,4rem)] leading-[1] tracking-[-0.03em] font-semibold text-white mb-10"
+            >
               Hi, I'm{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-                {NAME}
+              <span className="font-serif italic font-normal" style={{ color: theme.accentHex }}>
+                {NAME.split(" ")[0]}.
               </span>
-            </h2>
+            </motion.h2>
 
-            <div className="space-y-4 text-neutral-300 text-lg">
+            <div className="space-y-6 text-neutral-300 text-lg leading-relaxed max-w-2xl">
               <p>
-                I'm a senior backend engineer specializing in systems where money flows and mistakes are expensive.
+                I'm a senior backend engineer specializing in systems where money flows and
+                mistakes are expensive.
               </p>
-
               <p>
-                Over the past 8 years, I've architected and deployed revenue-critical backends for gaming studios, fintech startups, and Web3 companies. My work has processed over <span className="text-purple-400">$50M in transactions</span> and supported platforms serving <span className="text-cyan-400">millions of users</span>.
+                Over the past 8 years, I've architected and shipped revenue-critical backends for
+                gaming studios, fintech startups, and Web3 companies. My work has processed{" "}
+                <span className="text-white" style={{ borderBottom: `1px dashed ${theme.accentHex}` }}>
+                  $50M+ in transactions
+                </span>{" "}
+                and supported platforms serving{" "}
+                <span className="text-white" style={{ borderBottom: `1px dashed ${theme.accentHex}` }}>
+                  millions of users
+                </span>.
               </p>
-
               <p>
-                Before going independent, I led backend teams at a YC-backed fintech company and built real-time multiplayer infrastructure for mobile games with 10M+ downloads.
+                Before going independent, I led backend teams at a YC-backed fintech and built
+                real-time multiplayer infrastructure for mobile games with 10M+ downloads.
               </p>
-
-              <p className="text-neutral-400">
-                I don't do equity-only projects. I work with founders who have budget, urgency, and a product that involves real risk or real money.
+              <p className="text-neutral-500">
+                I don't do equity-only projects. I work with founders who have budget, urgency,
+                and a product that involves real risk or real money.
               </p>
             </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <span className="px-4 py-2 bg-purple-500/10 border border-purple-500/30 text-purple-300 rounded-full text-sm">
-                Node.js / TypeScript
-              </span>
-              <span className="px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 rounded-full text-sm">
-                PostgreSQL / Redis
-              </span>
-              <span className="px-4 py-2 bg-blue-500/10 border border-blue-500/30 text-blue-300 rounded-full text-sm">
-                AWS / GCP
-              </span>
-              <span className="px-4 py-2 bg-violet-500/10 border border-violet-500/30 text-violet-300 rounded-full text-sm">
-                WebSockets / Real-time
-              </span>
+            {/* Stack */}
+            <div className="mt-12">
+              <div className="font-mono text-[11px] uppercase tracking-[0.2em] text-neutral-600 mb-4">
+                $ stack --list
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {STACK.map((tech, i) => (
+                  <motion.span
+                    key={tech}
+                    initial={{ opacity: 0, y: 8 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.04 }}
+                    className="px-3 py-1.5 font-mono text-xs border border-white/10 rounded-md text-neutral-300 hover:text-white hover:border-white/30 transition-colors"
+                  >
+                    {tech}
+                  </motion.span>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Right: Stats Grid */}
-          <div className="grid gap-6">
-            {stats.map((stat, index) => (
-              <div
-                key={index}
-                className="border border-neutral-800/50 bg-gradient-to-br from-neutral-900/50 to-neutral-950/50 backdrop-blur-sm p-8 rounded-xl hover:border-neutral-700 transition-all"
-              >
-                <div className="flex items-start gap-4">
-                  <div className={`p-3 rounded-lg bg-gradient-to-br ${stat.gradient} shadow-lg`}>
-                    <stat.icon className="size-6 text-white" />
-                  </div>
-                  <div>
-                    <div className={`text-4xl text-transparent bg-clip-text bg-gradient-to-r ${stat.gradient} mb-2`}>
-                      {stat.value}
-                    </div>
-                    <div className="text-neutral-400">{stat.label}</div>
-                  </div>
-                </div>
-              </div>
+          {/* Right: stats */}
+          <div className="lg:col-span-5 flex flex-col gap-px">
+            {STATS.map((s, i) => (
+              <StatRow key={i} {...s} />
             ))}
 
-            {/* Testimonial-style quote */}
-            <div className="border border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-cyan-500/5 backdrop-blur-sm p-8 rounded-xl">
-              <p className="text-neutral-300 italic mb-4">
-               {NAME} " delivered our entire fintech ledger system in 3 weeks. Zero bugs in production. Worth every penny."
+            {/* Quote */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: 0.2 }}
+              className="mt-12 border-l-2 pl-6 py-2"
+              style={{ borderColor: theme.accentHex }}
+            >
+              <p className="text-neutral-200 font-serif italic text-xl leading-relaxed mb-4">
+                "{NAME} delivered our entire fintech ledger system in 3 weeks. Zero bugs in
+                production. Worth every penny."
               </p>
-              <div className="flex items-center gap-3">
-                <div className="size-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-500" />
+              <div className="flex items-center gap-3 font-mono text-xs">
+                <div
+                  className="size-8 rounded-full"
+                  style={{ background: `linear-gradient(135deg, ${theme.accentHex}, #ffffff20)` }}
+                />
                 <div>
-                  <div className="text-neutral-200 text-sm">Sarah Johnson</div>
-                  <div className="text-neutral-500 text-xs">CEO, PayFlow</div>
+                  <div className="text-neutral-200 not-italic">Sarah Johnson</div>
+                  <div className="text-neutral-600 text-[10px] uppercase tracking-[0.2em]">CEO · PayFlow</div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function StatRow({ value, suffix, label, sub }: { value: number; suffix: string; label: string; sub: string }) {
+  const theme = useTheme();
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let raf = 0;
+    const start = performance.now();
+    const duration = 1200;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setCount(Math.round(eased * value));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [inView, value]);
+
+  return (
+    <div
+      ref={ref}
+      className="group flex items-baseline justify-between gap-6 py-6 border-b border-white/5"
+    >
+      <div>
+        <div className="text-neutral-400 text-sm">{label}</div>
+        <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-neutral-600 mt-1">
+          {sub}
+        </div>
+      </div>
+      <div
+        className="text-5xl font-semibold tracking-tight tabular-nums"
+        style={{ color: theme.accentHex }}
+      >
+        {count}
+        <span className="text-neutral-600">{suffix}</span>
+      </div>
+    </div>
   );
 }

@@ -1,59 +1,97 @@
-import { Calendar, ExternalLink } from "lucide-react";
+import { Calendar, ExternalLink, ArrowRight } from "lucide-react";
+import { motion } from "motion/react";
 import { BOOK_DEMO } from "../constants/personal";
+import { useTheme } from "../theme/ThemeProvider";
+import { SectionLabel } from "./WhatIDo";
 
 export function BookDemo() {
-  // Replace with actual Calendly link
-  const calendlyLink = BOOK_DEMO;
+  const theme = useTheme();
 
   return (
-    <section id="book-demo" className="py-20 lg:py-32 px-6 lg:px-8 bg-gradient-to-b from-neutral-900/30 to-neutral-950">
+    <section id="book-demo" className="relative py-20 sm:py-28 lg:py-44 px-5 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center justify-center size-16 bg-gradient-to-br from-purple-500 to-cyan-500 rounded-full mb-8 shadow-xl shadow-purple-500/25">
-            <Calendar className="size-8 text-white" />
-          </div>
+        <SectionLabel index="07" label="contact" />
 
-          <h2 className="text-neutral-100 mb-6">
-            Backend Risk Review &{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-              Execution Plan
-            </span>
-          </h2>
+        <div className="grid lg:grid-cols-12 gap-12 items-end">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-8"
+          >
+            <h2 className="text-[clamp(2.4rem,6.5vw,5.5rem)] leading-[0.95] tracking-[-0.04em] font-semibold text-white">
+              Got something{" "}
+              <span className="font-serif italic font-normal" style={{ color: theme.accentHex }}>
+                hard
+              </span>
+              <br />
+              to ship?
+            </h2>
+            <p className="text-neutral-400 max-w-xl text-lg mt-8">
+              Bring your idea, system, or code. We'll focus on real issues — what can break,
+              where money flows, how to scale, and what to build first.
+            </p>
+          </motion.div>
 
-          <p className="text-neutral-300 mb-10 max-w-2xl mx-auto text-lg">
-            Bring your idea, system, or code. We'll focus on real issues: what can break, where money flows, how to scale, and what to build first.
-          </p>
-
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href={calendlyLink}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="lg:col-span-4 flex flex-col gap-4"
+          >
+            <motion.a
+              whileHover={{ y: -3 }}
+              whileTap={{ scale: 0.97 }}
+              href={BOOK_DEMO}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-8 py-4 rounded-lg hover:from-purple-600 hover:to-cyan-600 transition-all inline-flex items-center justify-center gap-2 shadow-xl shadow-purple-500/25"
+              className="group flex items-center justify-between px-7 py-5 rounded-lg font-medium text-black"
+              style={{
+                background: theme.accentHex,
+                boxShadow: `0 20px 60px -20px ${theme.accentGlow}`,
+              }}
             >
-              <Calendar className="size-5" />
-              Schedule on Calendly
-              <ExternalLink className="size-4" />
-            </a>
-          </div>
+              <span className="flex items-center gap-3">
+                <Calendar className="size-5" />
+                Schedule on Calendly
+              </span>
+              <ArrowRight className="size-5 group-hover:translate-x-1 transition-transform" />
+            </motion.a>
 
-          <div className="mt-12 pt-12 border-t border-neutral-800/50">
-            <div className="grid sm:grid-cols-3 gap-8 text-left">
-              <div className="border border-purple-500/10 bg-purple-500/5 p-6 rounded-lg">
-                <div className="text-purple-400 text-sm mb-2">Meeting Type</div>
-                <div className="text-neutral-200">Free technical consultation</div>
-              </div>
-              <div className="border border-cyan-500/10 bg-cyan-500/5 p-6 rounded-lg">
-                <div className="text-cyan-400 text-sm mb-2">Duration</div>
-                <div className="text-neutral-200">20–30 minutes</div>
-              </div>
-              <div className="border border-blue-500/10 bg-blue-500/5 p-6 rounded-lg">
-                <div className="text-blue-400 text-sm mb-2">Next Step</div>
-                <div className="text-neutral-200">Proposal or decline—no pressure</div>
-              </div>
-            </div>
-          </div>
+            <a
+              href={BOOK_DEMO}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-neutral-500 hover:text-white transition-colors px-2"
+            >
+              opens in new tab <ExternalLink className="size-3" />
+            </a>
+          </motion.div>
         </div>
+
+        {/* Meta strip */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mt-20 grid sm:grid-cols-3 border-t border-white/5"
+        >
+          {[
+            { k: "Type",       v: "Free technical consultation" },
+            { k: "Duration",   v: "20–30 minutes" },
+            { k: "Next step",  v: "Proposal · or decline · no pressure" },
+          ].map((row) => (
+            <div key={row.k} className="py-8 px-6 border-b sm:border-b-0 sm:border-r last:border-r-0 border-white/5">
+              <div className="font-mono text-[10px] uppercase tracking-[0.25em] mb-3" style={{ color: theme.accentHex }}>
+                {row.k}
+              </div>
+              <div className="text-neutral-200">{row.v}</div>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

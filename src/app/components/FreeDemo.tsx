@@ -1,88 +1,120 @@
 import { CheckCircle2, Calendar } from "lucide-react";
+import { motion } from "motion/react";
+import { useTheme } from "../theme/ThemeProvider";
+
+const BENEFITS = [
+  "Review your system or idea",
+  "Identify money / logic / scaling risks",
+  "Suggest concrete execution approach",
+  "No obligation",
+];
 
 export function FreeDemo() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+  const theme = useTheme();
+
+  const scrollTo = (id: string) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
-  const benefits = [
-    "Review your system or idea",
-    "Identify money / logic / scaling risks",
-    "Suggest execution approach",
-    "No obligation"
-  ];
-
   return (
-    <section id="free-demo" className="py-20 lg:py-32 px-6 lg:px-8">
+    <section id="free-demo" className="relative py-20 sm:py-28 lg:py-40 px-5 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto">
-        <div className="max-w-5xl mx-auto border border-purple-500/20 bg-gradient-to-br from-purple-500/10 via-neutral-900/50 to-cyan-500/10 backdrop-blur-sm rounded-2xl p-8 lg:p-12 shadow-2xl shadow-purple-500/10">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-cyan-500 text-white text-xs px-3 py-1 rounded-full mb-4">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                </span>
-                FREE OFFER
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8 }}
+          className="relative max-w-6xl mx-auto rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.04] to-transparent backdrop-blur-sm overflow-hidden"
+          style={{ boxShadow: `0 60px 120px -40px ${theme.accentGlow}` }}
+        >
+          {/* Top accent bar */}
+          <div
+            className="absolute top-0 left-0 right-0 h-px"
+            style={{ background: `linear-gradient(90deg, transparent, ${theme.accentHex}, transparent)` }}
+          />
+
+          <div className="grid lg:grid-cols-2">
+            {/* Left */}
+            <div className="p-10 lg:p-14 border-b lg:border-b-0 lg:border-r border-white/10">
+              <div
+                className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] px-3 py-1.5 rounded-full mb-6"
+                style={{ background: theme.accentSoft, color: theme.accentHex }}
+              >
+                <span className="size-1.5 rounded-full animate-pulse" style={{ background: theme.accentHex }} />
+                Free offer
               </div>
 
-              <h2 className="text-neutral-100 mb-6">
-                Free Backend{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-                  Risk Review & Demo
+              <h2 className="text-[clamp(1.8rem,4vw,3.2rem)] leading-[1] tracking-[-0.03em] font-semibold text-white mb-6">
+                Free backend{" "}
+                <span className="font-serif italic font-normal" style={{ color: theme.accentHex }}>
+                  risk review
                 </span>
+                .
               </h2>
-              <p className="text-neutral-300 mb-8 text-lg">
-                20–30 minute live call where we focus on what actually matters for your backend.
+
+              <p className="text-neutral-400 text-lg mb-8">
+                A 20–30 minute live call where we focus on what actually matters for your backend — and what doesn't.
               </p>
 
-              <ul className="space-y-4 mb-8">
-                {benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <CheckCircle2 className="size-5 text-purple-400 mt-0.5 flex-shrink-0" />
-                    <span className="text-neutral-200">{benefit}</span>
-                  </li>
+              <ul className="space-y-3 mb-10">
+                {BENEFITS.map((b, i) => (
+                  <motion.li
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.08 }}
+                    className="flex items-start gap-3"
+                  >
+                    <CheckCircle2 className="size-5 mt-0.5 shrink-0" style={{ color: theme.accentHex }} />
+                    <span className="text-neutral-200">{b}</span>
+                  </motion.li>
                 ))}
               </ul>
 
-              <button
-                onClick={() => scrollToSection("book-demo")}
-                className="bg-gradient-to-r from-purple-500 to-cyan-500 text-white px-8 py-4 rounded-lg hover:from-purple-600 hover:to-cyan-600 transition-all inline-flex items-center gap-2 shadow-xl shadow-purple-500/25"
+              <motion.button
+                whileHover={{ y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => scrollTo("book-demo")}
+                className="px-7 py-4 rounded-md font-medium text-black inline-flex items-center gap-3"
+                style={{
+                  background: theme.accentHex,
+                  boxShadow: `0 10px 40px -10px ${theme.accentGlow}`,
+                }}
               >
-                <Calendar className="size-5" />
-                Schedule Demo
-              </button>
+                <Calendar className="size-4" />
+                Schedule the call
+              </motion.button>
             </div>
 
-            <div className="bg-neutral-950/80 border border-neutral-800/50 backdrop-blur-sm rounded-xl p-8 shadow-xl">
-              <div className="space-y-6">
-                <div>
-                  <div className="text-purple-400 text-sm mb-2">Duration</div>
-                  <div className="text-neutral-100">20–30 minutes</div>
-                </div>
-                <div>
-                  <div className="text-cyan-400 text-sm mb-2">Format</div>
-                  <div className="text-neutral-100">Live video call</div>
-                </div>
-                <div>
-                  <div className="text-blue-400 text-sm mb-2">What to bring</div>
-                  <div className="text-neutral-100">Your idea, system, or code</div>
-                </div>
-                <div>
-                  <div className="text-violet-400 text-sm mb-2">Cost</div>
-                  <div className="text-neutral-100 text-lg">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">
-                      Free
+            {/* Right meta panel */}
+            <div className="p-10 lg:p-14 bg-[#080808]">
+              <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-neutral-600 mb-8">
+                ~/meeting.config.json
+              </div>
+              <div className="space-y-6 font-mono text-sm">
+                {[
+                  { k: "duration",   v: "20–30 minutes" },
+                  { k: "format",     v: "Live video call" },
+                  { k: "to_bring",   v: "Your idea, system, or code" },
+                  { k: "cost",       v: "free", highlight: true },
+                  { k: "next_step",  v: "Proposal · or decline · no pressure" },
+                ].map((row) => (
+                  <div key={row.k} className="flex justify-between items-baseline gap-6 pb-4 border-b border-white/5">
+                    <span className="text-neutral-600">{row.k}</span>
+                    <span
+                      className={row.highlight ? "text-2xl font-semibold" : "text-neutral-200 text-right"}
+                      style={row.highlight ? { color: theme.accentHex } : undefined}
+                    >
+                      {row.v}
                     </span>
                   </div>
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
